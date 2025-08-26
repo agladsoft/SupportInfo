@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  support-info:
+    build: .
+    ports:
+      - "8050:8000"
+    env_file:
+      - .env
+    environment:
+      - USER_XML_RIVER=${USER_XML_RIVER}
+      - KEY_XML_RIVER=${KEY_XML_RIVER}
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    restart: unless-stopped
