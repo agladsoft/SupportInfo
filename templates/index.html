@@ -3,26 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Информация о балансе</title>
+    <title>Мониторинг сервисов</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <div class="container">
-        <h1 class="title">💰 Информация о балансе</h1>
+        <h1 class="title">📊 Мониторинг сервисов</h1>
         
         <div id="content">
-            {% if balance_info.status == "error" %}
-                <div class="error">{{ balance_info.error }}</div>
-            {% else %}
-                <div class="info-card">
-                    <div class="balance">{{ balance_info.balance }} рублей</div>
-                    <div class="cost">Стоимость запроса: {{ balance_info.cost_per_request }} копейки</div>
-                    <div class="rows">Доступно строк: {{ balance_info.rows_available }}</div>
-                </div>
-            {% endif %}
+            <!-- XMLRiver Service -->
+            <div class="service-section">
+                <h2>💰 XMLRiver (Яндекс.Кошелек)</h2>
+                {% if xmlriver_info.status == "error" %}
+                    <div class="error">{{ xmlriver_info.error }}</div>
+                {% else %}
+                    <div class="info-card">
+                        <div class="balance">{{ xmlriver_info.balance }} рублей</div>
+                        <div class="cost">Стоимость запроса: {{ xmlriver_info.cost_per_request }} копейки</div>
+                        <div class="rows">Доступно строк: {{ xmlriver_info.rows_available }}</div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Database Service -->
+            <div class="service-section">
+                <h2>🛢️ База данных ClickHouse</h2>
+                {% if database_info.status == "error" %}
+                    <div class="error">{{ database_info.error }}</div>
+                {% else %}
+                    <div class="info-card">
+                        <div class="status-ok">{{ database_info.connection_status }}</div>
+                        {% if database_info.response_time %}
+                            <div class="response-time">Время отклика: {{ database_info.response_time }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    {% if database_info.unique_companies_count is not none %}
+                        <div class="companies-highlight-block">
+                            <div class="companies-icon">🏢</div>
+                            <div class="companies-info">
+                                <div class="companies-title">Уникальные компании</div>
+                                <div class="companies-number">{{ database_info.unique_companies_count }}</div>
+                                <div class="companies-subtitle">записей в базе данных</div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <!-- DaData Service -->
+            <div class="service-section">
+                <h2>📊 DaData API</h2>
+                {% if dadata_info.status == "error" %}
+                    <div class="error">{{ dadata_info.error }}</div>
+                {% else %}
+                    <div class="info-card">
+                        {% for account in dadata_info.accounts %}
+                            <div class="dadata-account">
+                                <strong>{{ account.account_name }}</strong><br>
+                                Дата: {{ account.date }}<br>
+                                Осталось запросов: <span class="remaining">{{ account.remaining_requests }}</span>
+                            </div>
+                            {% if not loop.last %}<hr class="account-separator">{% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
         </div>
         
-        <button class="refresh-btn" onclick="refreshBalance()" id="refreshBtn">
+        <button class="refresh-btn" onclick="refreshAllServices()" id="refreshBtn">
             🔄 Обновить информацию
         </button>
         
@@ -30,8 +80,9 @@
             <div class="spinner"></div>
             Обновление данных...
         </div>
+        
     </div>
 
-    <script src="/static/js/main.js"></script>
+    <script src="/static/js/main.js?v=1757342653"></script>
 </body>
 </html>

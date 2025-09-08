@@ -3,9 +3,10 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     margin: 0;
+    padding: 20px 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     color: #333;
 }
 
@@ -14,7 +15,7 @@ body {
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    max-width: 500px;
+    max-width: 800px;
     width: 90%;
     text-align: center;
 }
@@ -72,19 +73,14 @@ body {
 .refresh-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-}
-
-.error {
-    color: #dc3545;
-    background: #f8d7da;
-    padding: 1rem;
-    border-radius: 5px;
-    margin: 1rem 0;
+    transform: none;
 }
 
 .loading {
     display: none;
     color: #667eea;
+    margin-top: 1rem;
+    text-align: center;
 }
 
 .spinner {
@@ -96,9 +92,122 @@ body {
     animation: spin 1s linear infinite;
     display: inline-block;
     margin-right: 10px;
+    vertical-align: middle;
 }
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.error {
+    color: #dc3545;
+    background: #f8d7da;
+    padding: 1rem;
+    border-radius: 5px;
+    margin: 1rem 0;
+}
+
+
+/* New styles for multiple services */
+.service-section {
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.service-section h2 {
+    color: #667eea;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 0.5rem;
+}
+
+.status-ok {
+    color: #28a745;
+    font-weight: 600;
+    margin: 0.5rem 0;
+}
+
+.response-time {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+}
+
+.companies-count {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+}
+
+.count-value {
+    color: #17a2b8;
+    font-weight: bold;
+}
+
+/* Выделенный блок для уникальных компаний */
+.companies-highlight-block {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    color: white;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.companies-highlight-block:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(40, 167, 69, 0.4);
+}
+
+.companies-icon {
+    font-size: 3rem;
+    margin-right: 1.5rem;
+    opacity: 0.9;
+}
+
+.companies-info {
+    flex: 1;
+}
+
+.companies-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+.companies-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.companies-subtitle {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    opacity: 0.8;
+}
+
+.dadata-account {
+    margin: 1rem 0;
+    padding: 0.5rem;
+}
+
+.remaining {
+    color: #17a2b8;
+    font-weight: bold;
+}
+
+.account-separator {
+    border: none;
+    border-top: 1px solid #e9ecef;
+    margin: 1rem 0;
+}
+
