@@ -43,6 +43,12 @@ function generateAllServicesHtml(data) {
             <h2>📊 DaData API</h2>
             ${generateDadataHtml(data.dadata)}
         </div>
+
+        <!-- System Monitoring -->
+        <div class="service-section">
+            <h2>🖥️ Мониторинг системы</h2>
+            ${generateSystemHtml(data.system)}
+        </div>
     `;
 }
 
@@ -100,6 +106,31 @@ function generateDadataHtml(data) {
     `).join('');
     
     return `<div class="info-card">${accountsHtml}</div>`;
+}
+
+function generateSystemHtml(data) {
+    if (data.status === 'error') {
+        return `<div class="error">${data.error || 'Неизвестная ошибка'}</div>`;
+    }
+    
+    return `
+        <div class="info-card">
+            <div class="system-resource">
+                <strong>💾 Оперативная память:</strong><br>
+                Занято: ${data.ram_percent}% (${data.ram_used_gb})
+            </div>
+            <hr class="resource-separator">
+            <div class="system-resource">
+                <strong>💿 Дисковое пространство:</strong><br>
+                Занято: ${data.disk_percent}% (${data.disk_used_gb})
+            </div>
+            <hr class="resource-separator">
+            <div class="system-resource">
+                <strong>⚡ Процессор (CPU):</strong><br>
+                Загруженность: ${data.cpu_percent}%
+            </div>
+        </div>
+    `;
 }
 
 document.addEventListener('DOMContentLoaded', function() {

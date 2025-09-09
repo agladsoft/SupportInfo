@@ -70,6 +70,31 @@
                 {% endif %}
             </div>
 
+            <!-- System Monitoring -->
+            <div class="service-section">
+                <h2>🖥️ Мониторинг системы</h2>
+                {% if system_info.status == "error" %}
+                    <div class="error">{{ system_info.error }}</div>
+                {% else %}
+                    <div class="info-card">
+                        <div class="system-resource">
+                            <strong>💾 Оперативная память:</strong><br>
+                            Занято: {{ system_info.ram_percent }}% ({{ system_info.ram_used_gb }})
+                        </div>
+                        <hr class="resource-separator">
+                        <div class="system-resource">
+                            <strong>💿 Дисковое пространство:</strong><br>
+                            Занято: {{ system_info.disk_percent }}% ({{ system_info.disk_used_gb }})
+                        </div>
+                        <hr class="resource-separator">
+                        <div class="system-resource">
+                            <strong>⚡ Процессор (CPU):</strong><br>
+                            Загруженность: {{ system_info.cpu_percent }}%
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
         </div>
         
         <button class="refresh-btn" onclick="refreshAllServices()" id="refreshBtn">

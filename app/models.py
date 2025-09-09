@@ -44,7 +44,18 @@ class DadataInfo(BaseModel):
     error: str | None = None
 
 
+class SystemInfo(BaseModel):
+    ram_percent: float
+    ram_used_gb: str
+    disk_percent: float
+    disk_used_gb: str
+    cpu_percent: float
+    status: ServiceStatus
+    error: str | None = None
+
+
 class AllServicesResponse(BaseModel):
     xmlriver: BalanceResponse
     database: DatabaseInfo
     dadata: DadataInfo
+    system: SystemInfo

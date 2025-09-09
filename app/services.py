@@ -3,8 +3,9 @@ import math
 import logging
 import os
 import time
+import psutil
 from datetime import datetime
-from .models import BalanceInfo, ServiceStatus, DatabaseInfo, DadataInfo, DadataAccountInfo
+from .models import BalanceInfo, ServiceStatus, DatabaseInfo, DadataInfo, DadataAccountInfo, SystemInfo
 from dotenv import load_dotenv
 from dadata.sync import DadataClient
 import clickhouse_connect
@@ -221,5 +222,45 @@ class DadataService:
                 status=ServiceStatus.ERROR,
                 error="Не удалось получить статистику DaData"
             )
+
+
+class SystemMonitoringService:
+    def __init__(self):
+        self.timeout = 10
+    
+    def get_system_info(self) -> SystemInfo:
+        """Получить информацию о системных ресурсах"""
+        try:
+            ram_memory = psutil.virtual_memory()
+            disk_usage = psutil.disk_usage("/")
+            cpu_percent = psutil.cpu_percent(interval=1)
+            
+            return SystemInfo(
+                ram_percent=round(ram_memory.percent, 1),
+                ram_used_gb=self._bytes_to_human(ram_memory.used),
+                disk_percent=round(disk_usage.percent, 1),
+                disk_used_gb=self._bytes_to_human(disk_usage.used),
+                cpu_percent=round(cpu_percent, 1),
+                status=ServiceStatus.SUCCESS
+            )
+        except Exception as e:
+            logger.error(f"Ошибка при получении системной информации: {e}")
+            return SystemInfo(
+                ram_percent=0.0,
+                ram_used_gb="Ошибка",
+                disk_percent=0.0,
+                disk_used_gb="Ошибка",
+                cpu_percent=0.0,
+                status=ServiceStatus.ERROR,
+                error="Не удалось получить системную информацию"
+            )
+    
+    def _bytes_to_human(self, bytes_value: int) -> str:
+        """Конвертировать байты в человекочитаемый формат"""
+        for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
+            if bytes_value < 1024.0:
+                return f"{bytes_value:.2f} {unit}"
+            bytes_value /= 1024.0
+        return f"{bytes_value:.2f} PB"
 
 
