@@ -144,16 +144,47 @@ class ClickHouseService:
             )
             
             query = """
-            SELECT COUNT(company_name) 
-            FROM (
-                SELECT company_name_unified, company_inn, company_name, 
-                       COUNT(DISTINCT company_inn) OVER (PARTITION BY company_name_unified) AS inn_count 
-                FROM reference_inn 
-                WHERE is_fts_found = FALSE
-            ) 
-            WHERE inn_count > 1 
-            AND company_inn IS NOT NULL 
-            AND company_name_unified IS NOT NULL
+            SELECT
+             count(*)
+            FROM
+             (
+             SELECT
+              company_name,
+              request_to_yandex,
+              company_inn,
+              company_name_unified,
+              country,
+              original_file_name,
+              file_loading_date
+             FROM
+              (
+              SELECT
+               company_name_unified,
+               company_inn,
+               company_name,
+               country,
+               request_to_yandex,
+               original_file_name,
+               toDate(original_file_parsed_on) AS file_loading_date,
+               countDistinct(company_inn) OVER (PARTITION BY company_name_unified) AS inn_count
+              FROM
+               default.reference_inn
+              WHERE
+               (is_fts_found = false)
+               AND ((is_checked_inn = false)
+                OR (is_checked_inn IS NULL))
+               AND (original_file_name NOT IN ('ИНН_база от Пьянкова (Южно-Сахалинск)_897_14_03_2024.xlsx.csv'))
+                )
+             WHERE
+              (inn_count > 1)
+              AND (company_inn IS NOT NULL)
+              AND (company_name_unified IS NOT NULL)
+            ) AS ri
+            ANY
+            LEFT JOIN default.all_enriched AS ae ON
+             ri.company_name = ae.company
+            LEFT JOIN default.reference_compass AS rc ON
+             ri.company_inn = rc.inn
             """
             
             result = client.query(query)

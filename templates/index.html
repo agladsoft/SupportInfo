@@ -47,11 +47,13 @@
                     <div class="info-card inn-card">
                         <div class="inn-count">{{ database_info.unique_companies_count }}</div>
                         <div class="inn-description">
-                            <div>Запрос считает, сколько записей в таблице относятся к компаниям, у которых:</div>
+                            <div>Количество не проверенных компаний. Запрос считает записи в таблице, которые относятся к компаниям, у которых:</div>
                             <ul class="inn-criteria">
                                 <li>не найдено совпадение в FTS</li>
+                                <li>ИНН не проверен (is_checked_inn = false или NULL)</li>
                                 <li>у одного нормализованного названия встречается более одного уникального ИНН</li>
-                                <li>и при этом оба поля — company_inn и company_name_unified — заполнены</li>
+                                <li>исключены файлы от Пьянкова (Южно-Сахалинск)</li>
+                                <li>оба поля company_inn и company_name_unified заполнены</li>
                             </ul>
                         </div>
                     </div>
