@@ -168,6 +168,16 @@ body {
     margin-top: 1rem;
 }
 
+.inn-criteria {
+    margin: 0.5rem 0 0 0;
+    padding-left: 1.2rem;
+    list-style-type: disc;
+}
+
+.inn-criteria li {
+    margin-bottom: 0.3rem;
+}
+
 .dadata-account {
     margin: 1rem 0;
     padding: 0.5rem;
