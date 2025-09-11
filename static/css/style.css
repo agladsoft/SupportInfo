@@ -147,52 +147,25 @@ body {
     font-weight: bold;
 }
 
-/* Выделенный блок для уникальных компаний */
-.companies-highlight-block {
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-    border-radius: 15px;
-    padding: 1.5rem;
-    margin: 1rem 0;
-    color: white;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* ИНН блок в общем стиле */
+.inn-card {
+    text-align: center;
 }
 
-.companies-highlight-block:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(40, 167, 69, 0.4);
-}
-
-.companies-icon {
-    font-size: 3rem;
-    margin-right: 1.5rem;
-    opacity: 0.9;
-}
-
-.companies-info {
-    flex: 1;
-}
-
-.companies-title {
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    opacity: 0.9;
-}
-
-.companies-number {
+.inn-count {
     font-size: 2.5rem;
     font-weight: bold;
-    line-height: 1;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    color: #28a745;
+    margin: 1rem 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
-.companies-subtitle {
+.inn-description {
+    color: #6c757d;
     font-size: 0.9rem;
-    margin-top: 0.5rem;
-    opacity: 0.8;
+    line-height: 1.4;
+    text-align: left;
+    margin-top: 1rem;
 }
 
 .dadata-account {

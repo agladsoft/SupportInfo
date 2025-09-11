@@ -38,6 +38,9 @@ function generateAllServicesHtml(data) {
             ${generateDatabaseHtml(data.database)}
         </div>
 
+        <!-- INN Section -->
+        ${generateInnHtml(data.database)}
+
         <!-- DaData Service -->
         <div class="service-section">
             <h2>📊 DaData API</h2>
@@ -71,23 +74,30 @@ function generateDatabaseHtml(data) {
         return `<div class="error">${data.error || 'Неизвестная ошибка'}</div>`;
     }
     
-    const companiesBlock = data.unique_companies_count !== null && data.unique_companies_count !== undefined ? `
-        <div class="companies-highlight-block">
-            <div class="companies-icon">🏢</div>
-            <div class="companies-info">
-                <div class="companies-title">ИНН</div>
-                <div class="companies-number">${data.unique_companies_count}</div>
-                <div class="companies-subtitle">подозрительных компаний, у которых одно название связано с несколькими ИНН</div>
-            </div>
-        </div>
-    ` : '';
-    
     return `
         <div class="info-card">
             <div class="status-ok">${data.connection_status}</div>
             ${data.response_time ? `<div class="response-time">Время отклика: ${data.response_time}</div>` : ''}
         </div>
-        ${companiesBlock}
+    `;
+}
+
+function generateInnHtml(data) {
+    if (data.status === 'error' || data.unique_companies_count === null || data.unique_companies_count === undefined) {
+        return '';
+    }
+    
+    return `
+        <div class="service-section">
+            <h2>🏢 ИНН</h2>
+            <div class="info-card inn-card">
+                <div class="inn-count">${data.unique_companies_count}</div>
+                <div class="inn-description">Запрос считает, сколько записей в таблице относятся к компаниям, у которых:
+• не найдено совпадение в FTS,
+• у одного нормализованного названия встречается более одного уникального ИНН,
+• и при этом оба поля — company_inn и company_name_unified — заполнены.</div>
+            </div>
+        </div>
     `;
 }
 
