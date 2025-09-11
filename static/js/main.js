@@ -77,7 +77,7 @@ function generateDatabaseHtml(data) {
             <div class="companies-info">
                 <div class="companies-title">Уникальные компании</div>
                 <div class="companies-number">${data.unique_companies_count}</div>
-                <div class="companies-subtitle">записей в базе данных</div>
+                <div class="companies-subtitle">подозрительных компаний, у которых одно название связано с несколькими ИНН</div>
             </div>
         </div>
     ` : '';
